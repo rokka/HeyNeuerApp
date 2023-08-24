@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HeyNeuer.Views.MainPage"
+             xmlns:vm="clr-namespace:HeyNeuer.Models.ViewModels"
+             x:DataType="vm:ComputerDetailViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+
+            <Image Source="heyalter_schwarz.png" WidthRequest="60" HorizontalOptions="Start" Margin="0,0,0,10"></Image>
+
+            <StackLayout x:Name="SearchStackPanel" Orientation="Horizontal">
+                <Entry IsReadOnly="True" Text="HA-E-" WidthRequest="60"></Entry>
+                <Entry x:Name="SearchEntry" MaxLength="4" Keyboard="Numeric" Placeholder="Computer-Nr." WidthRequest="70" TextChanged="SearchEntry_TextChanged"></Entry>
+                <Button x:Name="SearchButton" BackgroundColor="#059669" TextColor="White" Text="SUCHEN" IsEnabled="False" Clicked="SearchButton_Clicked"></Button>
+                <Button HorizontalOptions="EndAndExpand" x:Name="ScanButton" Text="SCANNEN" Clicked="ScanButton_Clicked" ></Button>
+            </StackLayout>
+
+            <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium"  IsVisible="{Binding IsLoaded}"></Label>
+            <TableView x:Name="ComputerTableView" Intent="Data"  IsVisible="{Binding IsLoaded}">
+                <TableRoot >
+                    <TableSection >
+                        <TextCell Text="Geräteklasse" Detail="{Binding Type}"></TextCell>
+                        <TextCell Text="Modell" Detail="{Binding Model}"></TextCell>
+                        <TextCell Text="CPU" Detail="{Binding Cpu}"></TextCell>
+                        <TextCell Text="Arbeitsspeicher" Detail="{Binding Ram}"></TextCell>
+                        <TextCell Text="Festplatte" Detail="{Binding Disk}"></TextCell>
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+
+            <Label Text="Status ändern" IsVisible="{Binding IsLoaded}" Margin="0,10,0,0"></Label>
+
+            <Button Text="Neu" IsVisible="{Binding IsLoaded}" IsEnabled="{Binding IsNotNew}"></Button>
+            <Button Text="Wird bearbeitet" IsVisible="{Binding IsLoaded}" IsEnabled="{Binding IsNotInProgress}"></Button>
+            <Button Text="Aufbereitet" IsVisible="{Binding IsLoaded}"></Button>
+            <Button Text="Kommissioniert" IsVisible="{Binding IsLoaded}"></Button>
+            <Button Text="Ausgeliefert" IsVisible="{Binding IsLoaded}"></Button>
+            <Button Text="Entsorgt" IsVisible="{Binding IsLoaded}"></Button>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
