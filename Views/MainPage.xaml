@@ -5,16 +5,30 @@
              xmlns:vm="clr-namespace:HeyNeuer.Models.ViewModels"
              x:DataType="vm:ComputerDetailViewModel">
 
+    <ContentPage.Resources>
+        <x:String x:Key="qrcode">&#xf029;</x:String>
+        <x:String x:Key="magnifying-glass">&#xf002;</x:String>
+    </ContentPage.Resources>
+
     <ScrollView>
         <VerticalStackLayout Padding="10">
 
             <Image Source="heyalter_schwarz.png" WidthRequest="60" HorizontalOptions="Start" Margin="0,0,0,10"></Image>
 
             <StackLayout x:Name="SearchStackPanel" Orientation="Horizontal">
-                <Entry IsReadOnly="True" Text="HA-E-" WidthRequest="60"></Entry>
-                <Entry x:Name="SearchEntry" MaxLength="4" Keyboard="Numeric" Placeholder="Computer-Nr." WidthRequest="70" TextChanged="SearchEntry_TextChanged"></Entry>
-                <Button x:Name="SearchButton" BackgroundColor="#059669" TextColor="White" Text="SUCHEN" IsEnabled="False" Clicked="SearchButton_Clicked"></Button>
-                <Button HorizontalOptions="EndAndExpand" x:Name="ScanButton" Text="SCANNEN" Clicked="ScanButton_Clicked" ></Button>
+                <Entry IsReadOnly="True" Text="HA-E-" WidthRequest="60" Margin="3"></Entry>
+                <Entry x:Name="SearchEntry" MaxLength="4" Keyboard="Numeric" Placeholder="Computer-Nr." WidthRequest="115" TextChanged="SearchEntry_TextChanged" Margin="3" Completed="SearchEntry_Completed" ></Entry>
+
+                <ImageButton HorizontalOptions="End" x:Name="SearchButton" Clicked="SearchButton_Clicked" BackgroundColor="Orange" CornerRadius="10" Margin="3" Padding="5" IsEnabled="False">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS" Size="20" Glyph="{StaticResource magnifying-glass}" Color="White"></FontImageSource>
+                    </ImageButton.Source>
+                </ImageButton>
+                <ImageButton HorizontalOptions="End" x:Name="ScanButton" Clicked="ScanButton_Clicked" BackgroundColor="Orange" CornerRadius="10" Margin="3" Padding="5">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS" Size="20" Glyph="{StaticResource qrcode}" Color="White"></FontImageSource>
+                    </ImageButton.Source>
+                </ImageButton>
             </StackLayout>
 
             <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium"  IsVisible="{Binding IsLoaded}"></Label>

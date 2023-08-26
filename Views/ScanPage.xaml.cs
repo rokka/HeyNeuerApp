@@ -1,6 +1,8 @@
-namespace HeyNeuer.Views;
+using System.Text.RegularExpressions;
 
 using ZXing.Net.Maui;
+
+namespace HeyNeuer.Views;
 
 public partial class ScanPage : ContentPage
 {
@@ -11,10 +13,33 @@ public partial class ScanPage : ContentPage
 
     private void BarcodesDetected(object sender, BarcodeDetectionEventArgs e)
     {
-        foreach (var barcode in e.Results)
+        var scannedBarcode = e.Results.FirstOrDefault()?.Value;
+
+        if (scannedBarcode == null)
         {
-            DisplayAlert("Foo", "Bar", "OK");
-            //DisplayAlert(barcode.Format.ToString(), barcode.Value, "OK");
+            return;
         }
+
+        cameraBarcodeReaderView.IsDetecting = false;
+
+        var regex = new Regex("\\/.*-([0-9]*)$");
+
+        var match = regex.Match(scannedBarcode);
+
+        if (!match.Success)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                DisplayAlert("Ungültiger Barcode", $"Der gescannte Barcode\"{scannedBarcode}\" ist ungültig.", "OK");
+            });
+
+            cameraBarcodeReaderView.IsDetecting = true;
+            return;
+        }
+
+        Device.BeginInvokeOnMainThread(() =>
+        {
+            Shell.Current.GoToAsync($"..?ComputerNo={match.Groups[1].Value}");
+        });
     }
 }
