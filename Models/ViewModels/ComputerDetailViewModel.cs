@@ -4,23 +4,53 @@ namespace HeyNeuer.Models.ViewModels;
 
 public partial class ComputerDetailViewModel : ObservableObject
 {
-    [ObservableProperty] private bool isLoaded;
+    [ObservableProperty] 
+    private bool isLoaded;
+    
+    [ObservableProperty]
+    public int id;
+    
+    [ObservableProperty]
+    public string type;
 
+    [ObservableProperty] 
+    public int number;
+
+    [ObservableProperty]
+    public string model;
+
+    [ObservableProperty]
+    public string cpu;
+
+    [ObservableProperty] 
+    public string ram;
+
+    [ObservableProperty]
+    public string disk;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsNotNew))]
+    [NotifyPropertyChangedFor(nameof(IsNotInProgress))]
+    [NotifyPropertyChangedFor(nameof(IsNotRefurbished))]
+    [NotifyPropertyChangedFor(nameof(IsNotPicked))]
+    [NotifyPropertyChangedFor(nameof(IsNotDelivered))]
+    [NotifyPropertyChangedFor(nameof(IsNotLoss))]
+    [NotifyPropertyChangedFor(nameof(IsNotDestroyed))]
+    public string state;
+    
     public string Name => $"HA-E-{this.number:0000}";
 
-    [ObservableProperty] public string type;
+    public bool IsNotNew => this.State != "new";
 
-    [ObservableProperty] public int number;
+    public bool IsNotInProgress => this.State != "in_progress";
 
-    [ObservableProperty] public string model;
+    public bool IsNotRefurbished => this.State != "refurbished";
 
-    [ObservableProperty] public string cpu;
+    public bool IsNotPicked => this.State != "picked";
 
-    [ObservableProperty] public string ram;
+    public bool IsNotDelivered => this.State != "delivered";
 
-    [ObservableProperty] public string disk;
+    public bool IsNotLoss => this.State != "loss";
 
-    [ObservableProperty] public bool isNotNew;
-
-    [ObservableProperty] public bool isNotInProgress;
+    public bool IsNotDestroyed => this.State != "destroyed";
 }

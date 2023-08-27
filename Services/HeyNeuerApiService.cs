@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HeyNeuer.Models.ApiModels;
+﻿using HeyNeuer.Models.ApiModels;
+
 using Newtonsoft.Json;
+
 using Computer = HeyNeuer.Models.Computer;
 
 namespace HeyNeuer.Services
 {
     public class HeyNeuerApiService : IHeyNeuerApiService
     {
+        private const string APIKEY = "rLEtJrkxLvrguSB8yvTTjFO8liL4h296fKB3vYWj";
         private readonly HttpClient httpClient;
 
         public HeyNeuerApiService()
@@ -28,7 +26,7 @@ namespace HeyNeuer.Services
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"{this.httpClient.BaseAddress}/computers/{computerNo}");
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization", "Bearer rLEtJrkxLvrguSB8yvTTjFO8liL4h296fKB3vYWj");
+            request.Headers.Add("Authorization", $"Bearer {APIKEY}");
 
             var response = await this.httpClient.SendAsync(request);
 
@@ -40,6 +38,23 @@ namespace HeyNeuer.Services
             }
 
             return null;
+        }
+
+        public async Task UpdateState(int id, string state)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                return;
+            }
+
+            var request = new HttpRequestMessage(HttpMethod.Patch, $"{this.httpClient.BaseAddress}/computers/{id}");
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Authorization", $"Bearer {APIKEY}");
+            request.Content = new StringContent("{\n  \"state\": \"" + state + "\"\n}", null, "application/json");
+
+            var response = await this.httpClient.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
         }
 
         private class Root

@@ -8,11 +8,11 @@
     <ContentPage.Resources>
         <x:String x:Key="qrcode">&#xf029;</x:String>
         <x:String x:Key="magnifying-glass">&#xf002;</x:String>
+        <x:String x:Key="floppy-disk">&#xf0c7;</x:String>
     </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout Padding="10">
-
             <Image Source="heyalter_schwarz.png" WidthRequest="60" HorizontalOptions="Start" Margin="0,0,0,10"></Image>
 
             <StackLayout x:Name="SearchStackPanel" Orientation="Horizontal">
@@ -31,10 +31,10 @@
                 </ImageButton>
             </StackLayout>
 
-            <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium"  IsVisible="{Binding IsLoaded}"></Label>
-            <TableView x:Name="ComputerTableView" Intent="Data"  IsVisible="{Binding IsLoaded}">
-                <TableRoot >
-                    <TableSection >
+            <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsLoaded}"></Label>
+            <TableView x:Name="ComputerTableView" Intent="Data" IsVisible="{Binding IsLoaded}">
+                <TableRoot>
+                    <TableSection>
                         <TextCell Text="Geräteklasse" Detail="{Binding Type}"></TextCell>
                         <TextCell Text="Modell" Detail="{Binding Model}"></TextCell>
                         <TextCell Text="CPU" Detail="{Binding Cpu}"></TextCell>
@@ -44,14 +44,22 @@
                 </TableRoot>
             </TableView>
 
-            <Label Text="Status ändern" IsVisible="{Binding IsLoaded}" Margin="0,10,0,0"></Label>
+            <HorizontalStackLayout>
+                <Label Text="Status ändern" FontAttributes="Bold" IsVisible="{Binding IsLoaded}" Margin="0,10,0,0"></Label>
+                <ImageButton x:Name="StateChangeImage" IsVisible="False" MinimumHeightRequest="10" Margin="0" Padding="0" >
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS" Size="14" Glyph="{StaticResource floppy-disk}" Color="Black"></FontImageSource>
+                    </ImageButton.Source>
+                </ImageButton>
+            </HorizontalStackLayout>
 
-            <Button Text="Neu" IsVisible="{Binding IsLoaded}" IsEnabled="{Binding IsNotNew}"></Button>
-            <Button Text="Wird bearbeitet" IsVisible="{Binding IsLoaded}" IsEnabled="{Binding IsNotInProgress}"></Button>
-            <Button Text="Aufbereitet" IsVisible="{Binding IsLoaded}"></Button>
-            <Button Text="Kommissioniert" IsVisible="{Binding IsLoaded}"></Button>
-            <Button Text="Ausgeliefert" IsVisible="{Binding IsLoaded}"></Button>
-            <Button Text="Entsorgt" IsVisible="{Binding IsLoaded}"></Button>
+            <Button x:Name="StateNewButton" Text="Neu" IsVisible="{Binding IsLoaded}" IsEnabled="{Binding IsNotNew}" Margin="2" Clicked="StateNewButton_Clicked" ></Button>
+            <Button x:Name="StateProgressButton" Text="Wird bearbeitet" IsVisible="{Binding IsLoaded}" IsEnabled="{Binding IsNotInProgress}" Margin="2" Clicked="StateProgressButton_Clicked"></Button>
+            <Button x:Name="StateRefurbishedButton" Text="Aufbereitet" IsVisible="{Binding IsLoaded}" IsEnabled="{Binding IsNotRefurbished}" Margin="2" Clicked="StateRefurbishedButton_Clicked"></Button>
+            <Button x:Name="StatePickedButton" Text="Kommissioniert" IsVisible="{Binding IsLoaded}" IsEnabled="{Binding IsNotPicked}" Margin="2" Clicked="StatePickedButton_Clicked"></Button>
+            <Button x:Name="StateDeliveredButton" Text="Ausgeliefert" IsVisible="{Binding IsLoaded}"  IsEnabled="{Binding IsNotDelivered}" Margin="2" Clicked="StateDeliveredButton_Clicked"></Button>
+            <Button x:Name="StateDestroyedButton" Text="Entsorgt" IsVisible="{Binding IsLoaded}"  IsEnabled="{Binding IsNotDestroyed}" Margin="2" Clicked="StateDestroyedButton_Clicked"></Button>
+            <Button x:Name="StateLossButton" Text="Schwund" IsVisible="{Binding IsLoaded}"  IsEnabled="{Binding IsNotLoss}" Margin="2" Clicked="StateLossButton_Clicked"></Button>
         </VerticalStackLayout>
     </ScrollView>
 
