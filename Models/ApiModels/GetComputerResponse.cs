@@ -30,6 +30,6 @@ public class Computer
     public int needs_donation_receipt { get; set; }
     public string state { get; set; }
     public string comment { get; set; }
-    public object created_at { get; set; }
-    public DateTime updated_at { get; set; }
+    public DateTime? created_at { get; set; }
+    public DateTime? updated_at { get; set; }
 }
